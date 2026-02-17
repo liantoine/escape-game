@@ -59,17 +59,15 @@
         }
 
         #msg { margin-top: 20px; font-weight: bold; min-height: 1.2em; }
-        .timer { font-size: 2em; color: #ff0000; margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <div id="terminal">
-        <div class="timer">T-MINUS: 15:00</div>
         <h2 id="title">> UNITÉ DE CONTRÔLE</h2>
         <p id="instruction">Énigme 1 : Calculez le déterminant de la matrice [[2, 5], [1, 3]].</p>
         
         <input type="text" id="code" placeholder="Entrez le code..." autocomplete="off">
-        <button onclick="check()">VALIDER</button>
+        <button onclick="check()">VALIDER LE CODE</button>
         
         <p id="msg"></p>
     </div>
@@ -77,14 +75,11 @@
     <script>
         let etapeActuelle = 1;
 
-        // Hashs des réponses sécurisés par SHA-256
+        // Hashs SHA-256 sécurisés
         const reponses = {
-            1: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b", // Résultat : 1
-            2: "d2d2d2d0590a590595d2c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3" 
+            1: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b", // Réponse : 1
+            2: "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5"  // Réponse : 10
         };
-
-        // Enigme 2 : Déterminant de [[4, 2], [1, 3]] -> (4*3) - (2*1) = 12 - 2 = 10
-        const enigma2Hash = "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5"; // Hash de "10"
 
         function check() {
             const input = document.getElementById("code").value.trim();
@@ -92,11 +87,11 @@
             
             if (etapeActuelle === 1) {
                 if (hash === reponses[1]) {
-                    success("CODE 1 ACCEPTÉ. Chargement module 2...");
+                    success("CODE 1 ACCEPTÉ. Accès au niveau 2...");
                     setTimeout(chargerEtape2, 1200);
                 } else { error(); }
             } else {
-                if (hash === enigma2Hash) { finalWin(); } 
+                if (hash === reponses[2]) { finalWin(); } 
                 else { error(); }
             }
         }
@@ -123,7 +118,7 @@
         }
 
         function finalWin() {
-            document.getElementById("terminal").innerHTML = "<h2 style='color:#00ff00'>BOMBE DÉSAMORCÉE</h2><p>Félicitations. Le système est désormais hors de danger.</p>";
+            document.getElementById("terminal").innerHTML = "<h2 style='color:#00ff00'>BOMBE DÉSAMORCÉE</h2><p>Le système a été stabilisé avec succès.</p>";
             document.body.style.animation = "none";
             document.body.style.background = "#001a00";
         }
