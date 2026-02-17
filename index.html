@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>DEMO E2 - Terminal de Sécurité</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body { background: #0f0f0f; color: #00ff00; font-family: 'Courier New', monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        #terminal { border: 2px solid #00ff00; padding: 20px; background: #000; box-shadow: 0 0 15px #00ff00; width: 80%; max-width: 500px; }
+        input { background: #000; border: 1px solid #00ff00; color: #00ff00; padding: 10px; width: 100%; box-sizing: border-box; margin-top: 10px; }
+        button { background: #00ff00; color: #000; border: none; padding: 10px; width: 100%; margin-top: 10px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div id="terminal">
+        <h2>> ACCÈS SYSTÈME E2</h2>
+        <p>Énigme 1 : Calculez le déterminant de la matrice [[2, 5], [1, 3]] pour déverrouiller le système.</p>
+        <input type="text" id="code" placeholder="Entrez le résultat...">
+        <button onclick="check()">VALIDER</button>
+        <p id="msg"></p>
+    </div>
+
+    <script>
+        function check() {
+            const secret = "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"; // Hash de "1"
+            const input = document.getElementById("code").value;
+            const hash = CryptoJS.SHA256(input).toString();
+            
+            if(hash === secret) {
+                document.getElementById("msg").innerHTML = "ACCÈS ACCORDÉ. Chargement du module suivant...";
+                document.getElementById("terminal").style.borderColor = "#00ff00";
+            } else {
+                document.getElementById("msg").innerHTML = "ERREUR : Code incorrect.";
+                document.getElementById("terminal").style.borderColor = "red";
+            }
+        }
+    </script>
+</body>
+</html>
