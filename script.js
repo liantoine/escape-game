@@ -1,45 +1,60 @@
-let etapeActuelle = 0;
-let erreurs = 0;
-let tempsRestant = CONFIG.tempsLimite;
+let etape = 0;
+let fautes = 0;
+let estVerrouille = false;
 
-function verifierReponse() {
-    const input = document.getElementById("input-reponse").value.trim().toUpperCase();
-    const enigme = CONFIG.enigmes[etapeActuelle];
+window.onload = () => { chargerEtape(); };
 
-    if (input === enigme.reponse) {
-        erreurs = 0; // On reset les erreurs si succès
-        etapeActuelle++;
-        if (etapeActuelle < CONFIG.enigmes.length) {
-            afficherEnigme();
+function chargerEtape() {
+    const q = estVerrouille ? CONFIG.punition : CONFIG.enigmes[etape];
+    document.getElementById("etape-titre").innerText = estVerrouille ? "!! VERROUILLAGE !!" : q.titre;
+    document.getElementById("question-texte").innerText = estVerrouille ? q.message + "\n" + q.question : q.question;
+    document.getElementById("reponse-input").value = "";
+    document.getElementById("message").innerText = "";
+}
+
+function verifier() {
+    const saisie = document.getElementById("reponse-input").value.trim().toUpperCase();
+    if (!saisie) return;
+
+    // On hashe la saisie de l'élève pour comparer
+    const saisieHashee = CryptoJS.SHA256(saisie).toString();
+    const cibleHash = estVerrouille ? CONFIG.punition.reponseHash : CONFIG.enigmes[etape].reponseHash;
+
+    if (saisieHashee === cibleHash) {
+        if (estVerrouille) {
+            estVerrouille = false;
+            fautes = 0;
+            document.getElementById("message").innerText = "> RÉINITIALISATION RÉUSSIE. RETOUR...";
+            setTimeout(chargerEtape, 1500);
         } else {
-            gagner();
+            etape++;
+            fautes = 0;
+            if (etape < CONFIG.enigmes.length) {
+                document.getElementById("message").innerText = "> ACCÈS ACCORDÉ. CHARGEMENT SUIVANT...";
+                setTimeout(chargerEtape, 1000);
+            } else {
+                gagner();
+            }
         }
     } else {
-        erreurs++;
-        document.getElementById("message").innerText = `ERREUR (${erreurs}/${CONFIG.tentativesMax})`;
-        if (erreurs >= CONFIG.tentativesMax) {
-            verrouillerSysteme();
+        if (!estVerrouille) {
+            fautes++;
+            if (fautes >= CONFIG.maxTentatives) {
+                estVerrouille = true;
+                chargerEtape();
+            } else {
+                document.getElementById("message").innerText = `> ÉCHEC. TENTATIVE ${fautes}/${CONFIG.maxTentatives}`;
+            }
+        } else {
+            document.getElementById("message").innerText = "> RÉPONSE INCORRECTE. SYSTÈME TOUJOURS BLOQUÉ.";
         }
     }
 }
 
-function verrouillerSysteme() {
-    document.getElementById("terminal").innerHTML = `<h2 style='color:red'>HACK DÉTECTÉ</h2><p>${CONFIG.messagePunition}</p>`;
+function gagner() {
+    document.getElementById("terminal").innerHTML = `
+        <h1 style="color:#00ff00">HACK RÉUSSI</h1>
+        <p>Accès total au noyau accordé.</p>
+        <p>Félicitations. Le code final est : <strong>8</strong></p>
+    `;
 }
-
-function afficherEnigme() {
-    const e = CONFIG.enigmes[etapeActuelle];
-    document.getElementById("titre-enigme").innerText = e.titre;
-    document.getElementById("texte-enigme").innerText = e.question;
-    document.getElementById("input-reponse").value = "";
-    document.getElementById("message").innerText = "";
-}
-
-// Lancer le chrono au chargement
-setInterval(() => {
-    tempsRestant--;
-    let min = Math.floor(tempsRestant / 60);
-    let sec = tempsRestant % 60;
-    document.getElementById("timer").innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
-    if (tempsRestant <= 0) alert("BOMBE EXPLOSÉE !");
-}, 1000);
