@@ -1,23 +1,32 @@
 let etape = 0;
 let fautes = 0;
 let estVerrouille = false;
-let etatJeu = "INTRO"; 
 
 window.onload = () => { afficherIntro(); };
 
 function afficherIntro() {
-    document.getElementById("etape-titre").innerText = "> ACCÈS SYSTÈME";
+    // On cache la zone d'input au début
+    document.getElementById("input-zone").style.display = "none";
+    document.getElementById("etape-titre").innerText = "> ACCÈS SYSTÈME REQUIS";
     document.getElementById("question-texte").innerText = CONFIG.intro;
-    document.getElementById("input-zone").innerHTML = `<button onclick="demarrerJeu()">DÉMARRER LA SÉQUENCE</button>`;
+    
+    // On crée un gros bouton de démarrage
+    const btnIntro = document.createElement("button");
+    btnIntro.innerText = "INITIALISER LE DÉCRYPTAGE";
+    btnIntro.id = "btn-start";
+    btnIntro.onclick = sequenceDemarrage;
+    document.getElementById("terminal").appendChild(btnIntro);
 }
 
-function demarrerJeu() {
-    etatJeu = "JEU";
-    document.getElementById("input-zone").innerHTML = `
-        <input type="text" id="reponse-input" placeholder="CODE" autocomplete="off">
-        <button onclick="verifier()">EXEC</button>
-    `;
-    chargerEtape();
+function sequenceDemarrage() {
+    // Effet de chargement
+    document.getElementById("btn-start").remove();
+    document.getElementById("question-texte").innerText = "> Connexion en cours...\n> Bypass firewall...\n> Accès aux modules d'algèbre...";
+    
+    setTimeout(() => {
+        document.getElementById("input-zone").style.display = "block";
+        chargerEtape();
+    }, 2000);
 }
 
 function genererMatriceHTML(data) {
@@ -39,12 +48,12 @@ function chargerEtape() {
     const mContainer = document.getElementById("matrix-container");
     mContainer.innerHTML = q.matrice ? genererMatriceHTML(q.matrice) : "";
     
-    // On force l'affichage des options
     const optContainer = document.getElementById("options-texte");
     optContainer.innerText = q.options || "";
     
     document.getElementById("reponse-input").value = "";
     document.getElementById("message").innerText = "";
+    document.getElementById("reponse-input").focus();
 }
 
 function verifier() {
@@ -57,12 +66,12 @@ function verifier() {
     if (saisieHashee === cibleHash) {
         if (estVerrouille) {
             estVerrouille = false; fautes = 0;
-            document.getElementById("message").innerText = "> DÉVERROUILLÉ.";
+            document.getElementById("message").innerText = "> SYSTÈME RÉINITIALISÉ.";
             setTimeout(chargerEtape, 1000);
         } else {
             etape++; fautes = 0;
             if (etape < CONFIG.enigmes.length) {
-                document.getElementById("message").innerText = "> ACCÈS ACCORDÉ.";
+                document.getElementById("message").innerText = "> MODULE VALIDÉ.";
                 setTimeout(chargerEtape, 1000);
             } else { gagner(); }
         }
@@ -72,12 +81,17 @@ function verifier() {
             if (fautes >= CONFIG.maxTentatives) {
                 estVerrouille = true; chargerEtape();
             } else {
-                document.getElementById("message").innerText = `> REFUSÉ (${fautes}/${CONFIG.maxTentatives})`;
+                document.getElementById("message").innerText = `> ERREUR : ACCÈS REFUSÉ (${fautes}/${CONFIG.maxTentatives})`;
             }
         }
     }
 }
 
 function gagner() {
-    document.getElementById("terminal").innerHTML = `<h1 style="color:#0f0">HACK RÉUSSI</h1><p>Code Final : 8</p>`;
+    document.getElementById("terminal").innerHTML = `
+        <h1 style="color:#0f0">SYSTÈME DÉSAMORCÉ</h1>
+        <p style="font-size: 1.5em;">Extraction du code secret réussie...</p>
+        <div style="border: 2px dashed #0f0; padding: 20px; font-size: 3em; margin: 20px;">8</div>
+        <p>Transmettez ce code à votre intervenant.</p>
+    `;
 }
