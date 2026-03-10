@@ -2,64 +2,139 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>TERMINAL HACKER - ACCÈS RESTEINT</title>
+    <title>TERMINAL_V2.1 - SECURED ACCESS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body { 
             background: #000; 
-            color: #00ff00; 
+            color: #0f0; 
             font-family: 'Courier New', monospace; 
+            margin: 0; 
+            overflow: hidden; /* Empêche les barres de défilement due à l'animation */
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
-            margin: 0;
-            overflow: hidden;
         }
+
+        /* Le Canvas pour l'arrière-plan animé */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place le canvas derrière le contenu */
+        }
+
+        /* Style du terminal de jeu */
         #terminal { 
-            border: 1px solid #00ff00; 
+            border: 1px solid #0f0; 
             padding: 40px; 
-            background: rgba(0, 20, 0, 0.9); 
-            box-shadow: 0 0 20px #004400;
-            width: 700px;
-            position: relative;
+            /* Fond noir semi-transparente pour voir l'animation derrière tout en lisant bien */
+            background: rgba(0, 5, 0, 0.92); 
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.4); 
+            width: 600px; 
+            z-index: 1; /* Place le terminal devant le canvas */
+            text-align: center;
         }
-        /* Effet de balayage ligne de scan */
-        #terminal::before {
-            content: " ";
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 255, 0, 0.05) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.02));
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-        h2 { border-bottom: 1px solid #00ff00; padding-bottom: 10px; }
-        #question-texte { color: #88ff88; min-height: 80px; white-space: pre-wrap; }
+
+        h2 { border-bottom: 1px solid #0f0; padding-bottom: 10px; margin-top: 0; text-transform: uppercase;}
+        #question-texte { margin: 25px 0; min-height: 80px; white-space: pre-wrap; color: #8f8; line-height: 1.4;}
+        
         input { 
-            background: #001100; border: 1px solid #00ff00; color: #00ff00; 
-            padding: 10px; font-size: 1.2em; width: 70%; outline: none;
+            background: rgba(0, 20, 0, 0.5); 
+            border: 1px solid #0f0; 
+            color: #0f0; 
+            padding: 12px; 
+            width: 280px; 
+            outline: none; 
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
         }
+        
         button { 
-            background: #00ff00; color: #000; border: none; 
-            padding: 10px 20px; cursor: pointer; font-weight: bold; margin-top: 10px;
+            background: #0f0; 
+            color: #000; 
+            border: none; 
+            padding: 12px 25px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            margin-left: 10px; 
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
         }
-        button:hover { background: #008800; color: #fff; }
-        #message { margin-top: 20px; font-weight: bold; height: 20px; }
+        button:hover { background: #fff; color: #000; }
+        
+        #message { margin-top: 25px; color: #0f0; font-size: 0.9em; font-weight: bold; min-height: 1em;}
+        .error-text { color: #f00; text-shadow: 0 0 5px red;}
+        .success-text { color: #fff; text-shadow: 0 0 5px #fff;}
     </style>
 </head>
 <body>
 
+    <canvas id="matrix-bg"></canvas>
+
     <div id="terminal">
-        <h2 id="etape-titre">ACCÈS SYSTÈME...</h2>
-        <p id="question-texte">Initialisation...</p>
-        
+        <h2 id="etape-titre">INITIALISATION...</h2>
+        <p id="question-texte"></p>
         <div id="input-zone">
-            <input type="text" id="reponse-input" placeholder="root@admin:~# " autocomplete="off">
-            <button onclick="verifier()">EXECUTE</button>
+            <input type="text" id="reponse-input" placeholder="SYS_ENTER_CODE" autocomplete="off">
+            <button onclick="verifier()">EXEC</button>
         </div>
-        
         <div id="message"></div>
     </div>
+
+    <script>
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        // Ajuste la taille du canvas à la fenêtre
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Les caractères à faire défiler
+        const alphabet = "0123456789XYWZ/=+-*<>";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        // Tableau pour gérer la position 'y' de chaque colonne
+        const rainDrops = [];
+        for( let x = 0; x < columns; x++ ) {
+            rainDrops[x] = 1;
+        }
+
+        const draw = () => {
+            // Crée un effet de traînée en dessinant un rectangle noir semi-transparent
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0'; // Couleur du texte (Vert)
+            ctx.font = fontSize + 'px monospace';
+
+            for(let i = 0; i < rainDrops.length; i++) {
+                // Choisit un caractère aléatoire
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                // Dessine le caractère
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                // Réinitialise la goutte en haut si elle dépasse ou aléatoirement
+                if(rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975){
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+
+        // Lance l'animation
+        setInterval(draw, 30);
+
+        // Gère le redimensionnement de la fenêtre
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 
     <script src="config.js"></script>
     <script src="script.js"></script>
