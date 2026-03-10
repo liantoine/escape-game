@@ -6,17 +6,26 @@ window.onload = () => { chargerEtape(); };
 
 function chargerEtape() {
     const q = estVerrouille ? CONFIG.punition : CONFIG.enigmes[etape];
-    document.getElementById("etape-titre").innerText = estVerrouille ? "!! VERROUILLAGE !!" : q.titre;
+    const titreElement = document.getElementById("etape-titre");
+    const msgElement = document.getElementById("message");
+
+    titreElement.innerText = estVerrouille ? "!! VERROUILLAGE !!" : q.titre;
+    // Ajoute une classe CSS rouge si verrouillé pour le titre
+    titreElement.className = estVerrouille ? "error-text" : "";
+
     document.getElementById("question-texte").innerText = estVerrouille ? q.message + "\n" + q.question : q.question;
     document.getElementById("reponse-input").value = "";
-    document.getElementById("message").innerText = "";
+    msgElement.innerText = "";
+    msgElement.className = "";
 }
 
 function verifier() {
-    const saisie = document.getElementById("reponse-input").value.trim().toUpperCase();
+    const saisieElement = document.getElementById("reponse-input");
+    const saisie = saisieElement.value.trim().toUpperCase();
+    const msgElement = document.getElementById("message");
     if (!saisie) return;
 
-    // On hashe la saisie de l'élève pour comparer
+    // Hachage de la saisie
     const saisieHashee = CryptoJS.SHA256(saisie).toString();
     const cibleHash = estVerrouille ? CONFIG.punition.reponseHash : CONFIG.enigmes[etape].reponseHash;
 
@@ -24,13 +33,15 @@ function verifier() {
         if (estVerrouille) {
             estVerrouille = false;
             fautes = 0;
-            document.getElementById("message").innerText = "> RÉINITIALISATION RÉUSSIE. RETOUR...";
+            msgElement.innerText = "> ACCÈS RÉTABLI. REDIRECT...";
+            msgElement.className = "success-text";
             setTimeout(chargerEtape, 1500);
         } else {
             etape++;
             fautes = 0;
             if (etape < CONFIG.enigmes.length) {
-                document.getElementById("message").innerText = "> ACCÈS ACCORDÉ. CHARGEMENT SUIVANT...";
+                msgElement.innerText = "> OK. CHARGEMENT MODULE SUIVANT...";
+                msgElement.className = "success-text";
                 setTimeout(chargerEtape, 1000);
             } else {
                 gagner();
@@ -43,18 +54,22 @@ function verifier() {
                 estVerrouille = true;
                 chargerEtape();
             } else {
-                document.getElementById("message").innerText = `> ÉCHEC. TENTATIVE ${fautes}/${CONFIG.maxTentatives}`;
+                msgElement.innerText = `> REFUSÉ. Tentative ${fautes}/${CONFIG.maxTentatives}`;
+                msgElement.className = "error-text";
             }
         } else {
-            document.getElementById("message").innerText = "> RÉPONSE INCORRECTE. SYSTÈME TOUJOURS BLOQUÉ.";
+            msgElement.innerText = "> CODE INCORRECT. BLOCAGE TOUJOURS ACTIF.";
+            msgElement.className = "error-text";
         }
+        saisieElement.value = ""; // Efface la mauvaise réponse
     }
 }
 
 function gagner() {
     document.getElementById("terminal").innerHTML = `
-        <h1 style="color:#00ff00">HACK RÉUSSI</h1>
-        <p>Accès total au noyau accordé.</p>
-        <p>Félicitations. Le code final est : <strong>8</strong></p>
+        <h1 class="success-text">ACCÈS TOTAL ACCORDÉ</h1>
+        <hr style="border:1px solid #0f0; margin: 20px 0;">
+        <p>Félicitations, vous avez contourné la sécurité.</p>
+        <p>Le code de désamorçage final est : <strong style="font-size:1.5em; background:#0f0; color:#000; padding: 0 5px;">8</strong></p>
     `;
 }
