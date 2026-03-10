@@ -3,23 +3,29 @@ const CONFIG = {
     enigmes: [
         {
             titre: "> MODULE : CALCUL DE RANG",
-            question: "Analyser la matrice D (3 lignes identiques [1 2 3 4]).\nDéterminer rang(D) :",
-            reponseHash: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b" 
+            // Énoncé Question 5
+            question: "Déterminer le rang de la matrice suivante :",
+            matrice: [["1", "2", "3", "4"], ["1", "2", "3", "4"], ["1", "2", "3", "4"]],
+            reponseHash: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
         },
         {
             titre: "> MODULE : ESPACES VECTORIELS",
-            question: "Quelle famille forme une base de R3 ?\nA: {(1,1,0),(0,1,1)}\nB: {(1,2,3),(1,1,0),(1,0,0)}\nC: {(1,2,3),(1,1,0),(1,0,0),(1,1,1)}",
-            reponseHash: "df8e4615d2d4d28238c350c3cce0a572a19999026405bc93856d357599052d3d" 
+            // Énoncé Question 6
+            question: "Quelle famille suivante forme une base de R3 ?",
+            options: "A: {(-1,-2),(2,4)}\nB: {(1,1,0),(0,1,1)}\nC: {(1,2,3),(1,1,0),(1,0,0)}\nD: {(1,2,3),(1,1,0),(1,0,0),(1,1,1)}",
+            reponseHash: "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c"
         },
         {
             titre: "> MODULE : DIMENSION",
-            question: "Soit E = {(x,y,z) ∈ R3 | x - y - z = 0}.\nDimension de E ?",
-            reponseHash: "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35" 
+            // Énoncé Question 7
+            question: "Soit E = {(x,y,z) ∈ R3 | x - y - z = 0}.\nQuelle est l'assertion vraie ?",
+            options: "A: dim E = 3\nB: dim E = 2\nC: dim E = 1",
+            reponseHash: "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c" 
         }
     ],
     punition: {
         message: "ALERTE : TENTATIVE D'INTRUSION DÉTECTÉE.\nSYSTÈME BLOQUÉ.",
-        question: "Entrez le code de déverrouillage prioritaire :",
-        reponseHash: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b" 
+        question: "Entrez le code de déverrouillage prioritaire (1) :",
+        reponseHash: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
     }
 };
