@@ -1,31 +1,28 @@
 const CONFIG = {
-    tempsLimite: 600, // 10 minutes en secondes
-    tentativesMax: 3,
+    maxTentatives: 3,
     
-    // Énigmes basées sur le document "Questions escape game"
+    // Questions basées sur le document PDF
     enigmes: [
         {
-            id: "vert",
-            titre: "COEFFICIENT VERT - Rang de Matrice",
-            question: "Déterminer le rang de la matrice D (3 lignes identiques [1 2 3 4]).",
-            reponse: "1",
-            indice: "Toutes les lignes sont identiques, elles sont donc liées."
+            titre: "COEFFICIENT VERT - RANG",
+            question: "Déterminer le rang de la matrice D dont les trois lignes sont identiques : [1 2 3 4].",
+            reponse: "1"
         },
         {
-            id: "bleu",
-            titre: "COEFFICIENT BLEU CLAIR - Base de R3",
-            question: "Quelle famille forme une base de R3 ? (Répondre A, B ou C)\n A: {(1,1,0),(0,1,1)}\n B: {(1,2,3),(1,1,0),(1,0,0)}\n C: {(1,2,3),(1,1,0),(1,0,0),(1,1,1)}",
-            reponse: "B",
-            indice: "Une base de R3 doit contenir exactement 3 vecteurs linéairement indépendants."
+            titre: "COEFFICIENT BLEU CLAIR - BASE",
+            question: "Quelle famille forme une base de R3 ?\nA: {(1,1,0),(0,1,1)}\nB: {(1,2,3),(1,1,0),(1,0,0)}\nC: {(1,2,3),(1,1,0),(1,0,0),(1,1,1)}",
+            reponse: "B"
         },
         {
-            id: "cesar",
-            titre: "ACCÈS SYSTÈME - Décalage",
-            question: "Soit E={(x,y,z) ∈ R3 | x-y-z=0}. Quelle est la dimension de E ?",
-            reponse: "2",
-            indice: "C'est un plan dans R3, défini par une seule équation."
+            titre: "ACCÈS FINAL - DIMENSION",
+            question: "Soit E = {(x,y,z) ∈ R3 | x - y - z = 0}. Quelle est la dimension de ce sous-espace vectoriel ?",
+            reponse: "2"
         }
     ],
-    
-    messagePunition: "SYSTÈME VERROUILLÉ - Trop d'erreurs. Résolvez ce système pour obtenir le pass de déverrouillage : {x+y=3, x-y=1}. (Réponse : x=2, y=1)"
+
+    // Système anti-bourrine (Punition)
+    punition: {
+        message: "SÉCURITÉ ACTIVÉE : Trop d'erreurs détectées. Résolvez ce système pour déverrouiller le terminal : x+y=3 et x-y=1. Entrez les valeurs de x et y collées.",
+        codeDeblocage: "21" // x=2 et y=1
+    }
 };
