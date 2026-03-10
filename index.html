@@ -1,16 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Escape Game Math</title>
-    <link rel="stylesheet" href="style.css"> </head>
+    <meta charset="UTF-8">
+    <title>ALERTE - SYSTÈME DE SÉCURITÉ</title>
+    <style>
+        body { 
+            background: #1a0505; 
+            color: #ff4d4d; 
+            font-family: 'Courier New', monospace; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0;
+            animation: alert-bg 3s infinite;
+        }
+        @keyframes alert-bg {
+            0% { background: #1a0505; }
+            50% { background: #2d0a0a; }
+            100% { background: #1a0505; }
+        }
+        #terminal { 
+            border: 3px solid #ff0000; 
+            padding: 40px; 
+            background: #000; 
+            box-shadow: 0 0 30px #700000;
+            width: 650px;
+            text-align: center;
+        }
+        h2 { text-transform: uppercase; letter-spacing: 2px; }
+        #question-texte { font-size: 1.1em; line-height: 1.5; margin: 20px 0; color: #cccccc; }
+        input { 
+            background: #000; border: 1px solid #ff4d4d; color: #00ff00; 
+            padding: 12px; font-size: 1.2em; text-align: center; width: 80%;
+            outline: none;
+        }
+        button { 
+            background: #ff4d4d; color: #000; border: none; 
+            padding: 12px 25px; margin-top: 20px; cursor: pointer; 
+            font-weight: bold; text-transform: uppercase;
+        }
+        button:hover { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
+        #message { margin-top: 20px; min-height: 25px; font-weight: bold; font-size: 0.9em; }
+        .success-text { color: #00ff00; }
+    </style>
+</head>
 <body>
+
     <div id="terminal">
-        <div id="timer" style="font-size: 2em; color: yellow;">10:00</div>
-        <h1 id="titre-enigme">Initialisation...</h1>
-        <p id="texte-enigme"></p>
-        <input type="text" id="input-reponse" placeholder="Entrez le code...">
-        <button onclick="verifierReponse()">VALIDER</button>
-        <p id="message" style="color: red;"></p>
+        <h2 id="etape-titre">CHARGEMENT DU PROTOCOLE...</h2>
+        <p id="question-texte">Initialisation des modules mathématiques...</p>
+        
+        <div id="input-zone">
+            <input type="text" id="reponse-input" placeholder="ENTRER CODE" autocomplete="off">
+            <br>
+            <button onclick="verifier()">VALIDER L'ACCÈS</button>
+        </div>
+        
+        <div id="message"></div>
     </div>
 
     <script src="config.js"></script>
