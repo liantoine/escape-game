@@ -2,59 +2,60 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>ALERTE - SYSTÈME DE SÉCURITÉ</title>
+    <title>TERMINAL HACKER - ACCÈS RESTEINT</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body { 
-            background: #1a0505; 
-            color: #ff4d4d; 
+            background: #000; 
+            color: #00ff00; 
             font-family: 'Courier New', monospace; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             height: 100vh; 
             margin: 0;
-            animation: alert-bg 3s infinite;
-        }
-        @keyframes alert-bg {
-            0% { background: #1a0505; }
-            50% { background: #2d0a0a; }
-            100% { background: #1a0505; }
+            overflow: hidden;
         }
         #terminal { 
-            border: 3px solid #ff0000; 
+            border: 1px solid #00ff00; 
             padding: 40px; 
-            background: #000; 
-            box-shadow: 0 0 30px #700000;
-            width: 650px;
-            text-align: center;
+            background: rgba(0, 20, 0, 0.9); 
+            box-shadow: 0 0 20px #004400;
+            width: 700px;
+            position: relative;
         }
-        h2 { text-transform: uppercase; letter-spacing: 2px; }
-        #question-texte { font-size: 1.1em; line-height: 1.5; margin: 20px 0; color: #cccccc; }
+        /* Effet de balayage ligne de scan */
+        #terminal::before {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 255, 0, 0.05) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.02));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        h2 { border-bottom: 1px solid #00ff00; padding-bottom: 10px; }
+        #question-texte { color: #88ff88; min-height: 80px; white-space: pre-wrap; }
         input { 
-            background: #000; border: 1px solid #ff4d4d; color: #00ff00; 
-            padding: 12px; font-size: 1.2em; text-align: center; width: 80%;
-            outline: none;
+            background: #001100; border: 1px solid #00ff00; color: #00ff00; 
+            padding: 10px; font-size: 1.2em; width: 70%; outline: none;
         }
         button { 
-            background: #ff4d4d; color: #000; border: none; 
-            padding: 12px 25px; margin-top: 20px; cursor: pointer; 
-            font-weight: bold; text-transform: uppercase;
+            background: #00ff00; color: #000; border: none; 
+            padding: 10px 20px; cursor: pointer; font-weight: bold; margin-top: 10px;
         }
-        button:hover { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
-        #message { margin-top: 20px; min-height: 25px; font-weight: bold; font-size: 0.9em; }
-        .success-text { color: #00ff00; }
+        button:hover { background: #008800; color: #fff; }
+        #message { margin-top: 20px; font-weight: bold; height: 20px; }
     </style>
 </head>
 <body>
 
     <div id="terminal">
-        <h2 id="etape-titre">CHARGEMENT DU PROTOCOLE...</h2>
-        <p id="question-texte">Initialisation des modules mathématiques...</p>
+        <h2 id="etape-titre">ACCÈS SYSTÈME...</h2>
+        <p id="question-texte">Initialisation...</p>
         
         <div id="input-zone">
-            <input type="text" id="reponse-input" placeholder="ENTRER CODE" autocomplete="off">
-            <br>
-            <button onclick="verifier()">VALIDER L'ACCÈS</button>
+            <input type="text" id="reponse-input" placeholder="root@admin:~# " autocomplete="off">
+            <button onclick="verifier()">EXECUTE</button>
         </div>
         
         <div id="message"></div>
