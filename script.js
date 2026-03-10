@@ -1,8 +1,24 @@
 let etape = 0;
 let fautes = 0;
 let estVerrouille = false;
+let etatJeu = "INTRO"; 
 
-window.onload = () => { chargerEtape(); };
+window.onload = () => { afficherIntro(); };
+
+function afficherIntro() {
+    document.getElementById("etape-titre").innerText = "> ACCÈS SYSTÈME";
+    document.getElementById("question-texte").innerText = CONFIG.intro;
+    document.getElementById("input-zone").innerHTML = `<button onclick="demarrerJeu()">DÉMARRER LA SÉQUENCE</button>`;
+}
+
+function demarrerJeu() {
+    etatJeu = "JEU";
+    document.getElementById("input-zone").innerHTML = `
+        <input type="text" id="reponse-input" placeholder="CODE" autocomplete="off">
+        <button onclick="verifier()">EXEC</button>
+    `;
+    chargerEtape();
+}
 
 function genererMatriceHTML(data) {
     let html = '<div class="matrix-display"><div>';
@@ -20,12 +36,12 @@ function chargerEtape() {
     document.getElementById("etape-titre").innerText = estVerrouille ? "!! VERROUILLAGE !!" : q.titre;
     document.getElementById("question-texte").innerText = estVerrouille ? q.message + "\n" + q.question : q.question;
     
-    // Affichage de la matrice
     const mContainer = document.getElementById("matrix-container");
     mContainer.innerHTML = q.matrice ? genererMatriceHTML(q.matrice) : "";
     
-    // Affichage des options (A, B, C)
-    document.getElementById("options-texte").innerText = q.options || "";
+    // On force l'affichage des options
+    const optContainer = document.getElementById("options-texte");
+    optContainer.innerText = q.options || "";
     
     document.getElementById("reponse-input").value = "";
     document.getElementById("message").innerText = "";
