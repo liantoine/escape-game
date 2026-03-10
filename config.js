@@ -1,4 +1,5 @@
 const CONFIG = {
+    intro: "BIENVENUE AGENT. LE SYSTÈME DE SÉCURITÉ DU COEFFICIENT VERT EST ACTIF.\n\nVOUS DEVEZ RÉPONDRE AUX ÉNIGMES D'ALGÈBRE LINÉAIRE POUR DÉSAMORCER L'UNITÉ CENTRALE.\n\nAPPUYEZ SUR ENTRÉE POUR DÉBUTER LA SÉQUENCE.",
     maxTentatives: 3,
     enigmes: [
         {
@@ -22,7 +23,7 @@ const CONFIG = {
     ],
     punition: {
         message: "ALERTE : TENTATIVE D'INTRUSION DÉTECTÉE.\nSYSTÈME BLOQUÉ.",
-        question: "Entrez le code de déverrouillage prioritaire :",
+        question: "Entrez le code de déverrouillage prioritaire (1) :",
         reponseHash: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
     }
 };
