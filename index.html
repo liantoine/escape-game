@@ -2,32 +2,19 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>TERMINAL_HACKER</title>
+    <title>TERMINAL_SECURED</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body { background: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
         #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         #terminal { border: 1px solid #0f0; padding: 30px; background: rgba(0, 10, 0, 0.95); box-shadow: 0 0 20px #0f0; width: 650px; text-align: center; z-index: 1; }
-        
-        /* Style pour l'affichage de la matrice */
-        .matrix-display {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin: 15px 0;
-            font-size: 1.2em;
-            position: relative;
-            padding: 0 15px;
-        }
-        .matrix-display::before, .matrix-display::after {
-            content: ""; position: absolute; top: 0; bottom: 0; width: 10px; border: 2px solid #0f0;
-        }
+        .matrix-display { display: inline-flex; align-items: center; justify-content: center; margin: 15px 0; font-size: 1.2em; position: relative; padding: 0 15px; }
+        .matrix-display::before, .matrix-display::after { content: ""; position: absolute; top: 0; bottom: 0; width: 10px; border: 2px solid #0f0; }
         .matrix-display::before { left: 0; border-right: none; }
         .matrix-display::after { right: 0; border-left: none; }
         .matrix-row { display: flex; justify-content: center; }
         .matrix-cell { padding: 5px 10px; min-width: 30px; }
-
-        pre { white-space: pre-wrap; color: #8f8; font-size: 1em; }
+        pre { white-space: pre-wrap; color: #8f8; font-size: 1em; text-align: left; display: inline-block; margin-top: 10px; }
         input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 10px; width: 200px; outline: none; }
         button { background: #0f0; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
         #message { margin-top: 20px; font-weight: bold; height: 20px; }
@@ -36,10 +23,10 @@
 <body>
     <canvas id="matrix-bg"></canvas>
     <div id="terminal">
-        <h2 id="etape-titre">ACCÈS...</h2>
+        <h2 id="etape-titre">CHARGEMENT...</h2>
         <p id="question-texte"></p>
         <div id="matrix-container"></div>
-        <pre id="options-texte"></pre>
+        <div style="text-align: center;"><pre id="options-texte"></pre></div>
         <div id="input-zone">
             <input type="text" id="reponse-input" placeholder="CODE" autocomplete="off">
             <button onclick="verifier()">EXEC</button>
@@ -48,7 +35,6 @@
     </div>
 
     <script>
-        // Animation Matrix
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
