@@ -18,32 +18,20 @@
         input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 10px; width: 200px; outline: none; }
         button { background: #0f0; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
         #message { margin-top: 20px; font-weight: bold; height: 20px; }
-        #btn-start {
-            background: #0f0;
-            color: #000;
-            border: none;
-            padding: 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;  
-        }
-        #btn-start:hover {
-            background: #0a0;
-        }
+        #btn-start { background: #0f0; color: #000; border: none; padding: 20px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
+        #btn-start:hover { background: #0a0; }
     </style>
 </head>
 <body>
     <canvas id="matrix-bg"></canvas>
     <div id="terminal">
-        <h2 id="etape-titre">CHARGEMENT...</h2>
+        <h2 id="etape-titre">INITIALISATION...</h2>
         <p id="question-texte"></p>
         <div id="matrix-container"></div>
         <div style="text-align: center;"><pre id="options-texte"></pre></div>
-        <div id="input-zone">
+        <div id="input-zone" style="display:none;">
             <input type="text" id="reponse-input" placeholder="CODE" autocomplete="off">
-            <button onclick="verifier()">EXEC</button>
+            <button id="btn-exec" onclick="verifier()">EXEC</button>
         </div>
         <div id="message"></div>
     </div>
@@ -56,9 +44,10 @@
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const rainDrops = Array(Math.floor(columns)).fill(1);
+        window.matrixColor = "#0F0";
         const draw = () => {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = window.matrixColor; ctx.font = fontSize + 'px monospace';
             rainDrops.forEach((y, i) => {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
                 ctx.fillText(text, i * fontSize, y * fontSize);
@@ -72,4 +61,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-

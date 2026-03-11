@@ -1,32 +1,88 @@
 let etape = 0;
 let fautes = 0;
+let fautesPunition = 0; // Compteur spécifique pour la page de verrouillage
 let estVerrouille = false;
 
-window.onload = () => { afficherIntro(); };
+window.onload = () => { 
+    const statutVerrou = localStorage.getItem("hacker_verrouille");
+    const etapeSauvegardee = localStorage.getItem("hacker_etape");
+    const partieLancee = localStorage.getItem("hacker_encours");
+
+    if (statutVerrou === "true") {
+        estVerrouille = true;
+    }
+    
+    if (etapeSauvegardee) {
+        etape = parseInt(etapeSauvegardee);
+    }
+
+    if (partieLancee === "true" || estVerrouille) {
+        sequenceDemarrage();
+    } else {
+        afficherIntro(); 
+    }
+};
+
+function appliquerStyleUrgence() {
+    const terminal = document.getElementById("terminal");
+    const input = document.getElementById("reponse-input");
+    const btnExec = document.getElementById("btn-exec");
+    
+    document.body.style.color = "#f00";
+    terminal.style.borderColor = "#f00";
+    terminal.style.boxShadow = "0 0 30px #f00";
+    
+    if(input) {
+        input.style.borderColor = "#f00";
+        input.style.color = "#f00";
+    }
+    if(btnExec) {
+        btnExec.style.background = "#f00";
+        btnExec.style.color = "#000";
+    }
+    window.matrixColor = "#f00"; 
+}
+
+function appliquerStyleNormal() {
+    const terminal = document.getElementById("terminal");
+    const input = document.getElementById("reponse-input");
+    const btnExec = document.getElementById("btn-exec");
+    
+    document.body.style.color = "#0f0";
+    terminal.style.borderColor = "#0f0";
+    terminal.style.boxShadow = "0 0 20px #0f0";
+    
+    if(input) {
+        input.style.borderColor = "#0f0";
+        input.style.color = "#0f0";
+    }
+    if(btnExec) {
+        btnExec.style.background = "#0f0";
+        btnExec.style.color = "#000";
+    }
+    window.matrixColor = "#0f0";
+}
 
 function afficherIntro() {
-    // On cache la zone d'input au début
     document.getElementById("input-zone").style.display = "none";
     document.getElementById("etape-titre").innerText = "> ACCÈS SYSTÈME REQUIS";
     document.getElementById("question-texte").innerText = CONFIG.intro;
     
-    // On crée un gros bouton de démarrage
     const btnIntro = document.createElement("button");
     btnIntro.innerText = "INITIALISER LE DÉCRYPTAGE";
     btnIntro.id = "btn-start";
-    btnIntro.onclick = sequenceDemarrage;
+    btnIntro.onclick = () => {
+        localStorage.setItem("hacker_encours", "true");
+        sequenceDemarrage();
+    };
     document.getElementById("terminal").appendChild(btnIntro);
 }
 
 function sequenceDemarrage() {
-    // Effet de chargement
-    document.getElementById("btn-start").remove();
-    document.getElementById("question-texte").innerText = "> Connexion en cours...\n> Bypass firewall...\n> Accès aux modules d'algèbre...";
-    
-    setTimeout(() => {
-        document.getElementById("input-zone").style.display = "block";
-        chargerEtape();
-    }, 2000);
+    const btn = document.getElementById("btn-start");
+    if (btn) btn.remove();
+    document.getElementById("input-zone").style.display = "block";
+    chargerEtape();
 }
 
 function genererMatriceHTML(data) {
@@ -54,6 +110,12 @@ function chargerEtape() {
     document.getElementById("reponse-input").value = "";
     document.getElementById("message").innerText = "";
     document.getElementById("reponse-input").focus();
+    
+    if (estVerrouille) {
+        appliquerStyleUrgence();
+    } else {
+        appliquerStyleNormal();
+    }
 }
 
 function verifier() {
@@ -65,21 +127,33 @@ function verifier() {
 
     if (saisieHashee === cibleHash) {
         if (estVerrouille) {
-            estVerrouille = false; fautes = 0;
+            estVerrouille = false;
+            fautes = 0;
+            fautesPunition = 0;
+            localStorage.removeItem("hacker_verrouille");
             document.getElementById("message").innerText = "> SYSTÈME RÉINITIALISÉ.";
             setTimeout(chargerEtape, 1000);
         } else {
-            etape++; fautes = 0;
+            etape++;
+            fautes = 0;
+            localStorage.setItem("hacker_etape", etape);
             if (etape < CONFIG.enigmes.length) {
                 document.getElementById("message").innerText = "> MODULE VALIDÉ.";
                 setTimeout(chargerEtape, 1000);
-            } else { gagner(); }
+            } else { 
+                gagner(); 
+            }
         }
     } else {
-        if (!estVerrouille) {
+        if (estVerrouille) {
+            fautesPunition++;
+            document.getElementById("message").innerText = `> CODE INCORRECT (Échec ${fautesPunition})`;
+        } else {
             fautes++;
             if (fautes >= CONFIG.maxTentatives) {
-                estVerrouille = true; chargerEtape();
+                estVerrouille = true;
+                localStorage.setItem("hacker_verrouille", "true");
+                chargerEtape();
             } else {
                 document.getElementById("message").innerText = `> ERREUR : ACCÈS REFUSÉ (${fautes}/${CONFIG.maxTentatives})`;
             }
@@ -88,6 +162,7 @@ function verifier() {
 }
 
 function gagner() {
+    localStorage.clear();
     document.getElementById("terminal").innerHTML = `
         <h1 style="color:#0f0">SYSTÈME DÉSAMORCÉ</h1>
         <p style="font-size: 1.5em;">Extraction du code secret réussie...</p>
