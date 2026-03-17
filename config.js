@@ -19,11 +19,21 @@ const CONFIG = {
             question: "Soit E = {(x,y,z) ∈ R3 | x - y - z = 0}.\nQuelle est l'assertion vraie ?",
             options: "A: dim E = 3\nB: dim E = 2\nC: dim E = 1\nD: dim E = 0",
             reponseHash: "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c"
+        },
+        {
+            titre: "> MODULE : INVERSIBILITÉ",
+            question: "Pour quelles valeurs de a et b la matrice A est-elle inversible ?",
+            matrice: [["a", "b", "c", "d"], ["a", "a", "b", "c"], ["a", "a", "a", "b"], ["a", "a", "a", "a"]],
+            isDoubleInput: true,
+            touchesMath: ["a", "b", "c", "d", "0", "1", "!", "="],
+            reponseHash1: "a74b9962de2179fc3fdbcf7341c097e72fbb9be7a74a2fa32f51645aad5c07b2",
+            reponseHash2: "b4928a485247b874127f737d70cb6c9f671d216b3110b9287e958338bfdb98b7"
         }
+        
     ],
     punition: {
         message: "ALERTE : TENTATIVE D'INTRUSION DÉTECTÉE.\nSYSTÈME BLOQUÉ.",
-        question: "Entrez le code de déverrouillage prioritaire (1) :",
+        question: "Entrez le code de déverrouillage prioritaire :",
         reponseHash: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
     }
 };
