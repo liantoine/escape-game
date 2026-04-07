@@ -12,7 +12,7 @@ const CONFIG = {
             titre: "> MODULE : ESPACES VECTORIELS",
             question: "Quelle famille suivante forme une base de R3 ?",
             options: "A: {(-1,-2),(2,4)}\nB: {(1,1,0),(0,1,1)}\nC: {(1,0),(0,1)}\nD: {(1,2,3),(1,1,0),(1,0,0)}\nE: {(1,2,3),(1,1,0),(1,0,0),(1,1,1)}",
-            reponseHash: "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c"
+            reponseHash: "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43"
         },
         {
             titre: "> MODULE : DIMENSION",
@@ -34,17 +34,17 @@ const CONFIG = {
         {
             message: "ALERTE : TENTATIVE D'INTRUSION DÉTECTÉE.\nSYSTÈME BLOQUÉ.",
             question: "L'intersection de deux sous-espaces vectoriels est un sous-espace vectoriel.\nSoit E un espace vectoriel.\n\nCette assertion est-elle VRAIE ou FAUSSE ?",
-            reponseHash: "85198ce5f0ca9e38e225ca56657010a5032a109129afc22e9b1b0f554a864ff5" // "VRAI"
+            reponseHash: "85198ce5f0ca9e38e225ca56657010a5032a109129afc22e9b1b0f554a864ff5"
         },
         {
             message: "ALERTE : TENTATIVE D'INTRUSION DÉTECTÉE.\nSYSTÈME BLOQUÉ.",
             question: "Si F et G sont deux sous-espaces vectoriels de E alors\ndim F + dim G = dim(F + G).\n\nCette assertion est-elle VRAIE ou FAUSSE ?",
-            reponseHash: "dd93531216ec85494b03c7f3d58255f0048e3976f227a76a8bfa1a4f24aec96f" // "FAUX"
+            reponseHash: "dd93531216ec85494b03c7f3d58255f0048e3976f227a76a8bfa1a4f24aec96f"
         },
         {
             message: "ALERTE : TENTATIVE D'INTRUSION DÉTECTÉE.\nSYSTÈME BLOQUÉ.",
             question: "La composée d'applications linéaires est linéaire.\n\nCette assertion est-elle VRAIE ou FAUSSE ?",
-            reponseHash: "85198ce5f0ca9e38e225ca56657010a5032a109129afc22e9b1b0f554a864ff5" // "VRAI"
+            reponseHash: "85198ce5f0ca9e38e225ca56657010a5032a109129afc22e9b1b0f554a864ff5"
         }
     ]
 };

@@ -8,25 +8,18 @@
         body { background: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
         #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         #terminal { border: 1px solid #0f0; padding: 30px; background: rgba(0, 10, 0, 0.95); box-shadow: 0 0 20px #0f0; width: 650px; text-align: center; z-index: 1; transition: box-shadow 0.3s, border-color 0.3s; }
-        
-        /* Matrice avec parenthèses courbes */
         .matrix-display { display: inline-flex; align-items: center; justify-content: center; margin: 15px 0; font-size: 1.2em; position: relative; padding: 0 15px; }
         .matrix-display::before, .matrix-display::after { content: ""; position: absolute; top: 0; bottom: 0; width: 12px; border: 2px solid #0f0; border-radius: 12px; }
         .matrix-display::before { left: 0; border-right: none; }
         .matrix-display::after { right: 0; border-left: none; }
-        
         .matrix-row { display: flex; justify-content: center; }
         .matrix-cell { padding: 5px 10px; min-width: 30px; }
         pre { white-space: pre-wrap; color: #8f8; font-size: 1em; text-align: left; display: inline-block; margin-top: 10px; }
-        
         input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 10px; width: 200px; outline: none; margin: 5px; text-align: center; font-family: inherit; }
         input.math-active { border: 2px solid #fff; background: #001a00; }
-        
         button { background: #0f0; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; margin: 5px; }
         #message { margin-top: 20px; font-weight: bold; height: 20px; }
         #btn-start { background: #0f0; color: #000; border: none; padding: 20px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
-        #btn-start:hover { background: #0a0; }
-
         .math-key { width: 45px !important; padding: 10px 5px !important; background: #111; color: #0f0; border: 1px solid #0f0; }
         .math-key:hover { background: #0f0; color: #000; }
     </style>
@@ -38,24 +31,20 @@
         <p id="question-texte"></p>
         <div id="matrix-container"></div>
         <div style="text-align: center;"><pre id="options-texte"></pre></div>
-        
         <div id="input-zone" style="display:none;">
             <div id="standard-input-zone">
                 <input type="text" id="reponse-input" placeholder="CODE" autocomplete="off">
             </div>
-            
             <div id="double-input-zone" style="display:none;">
                 <input type="text" id="input-math-1" placeholder="Cond. 1" readonly onclick="setMathFocus(1)">
                 <input type="text" id="input-math-2" placeholder="Cond. 2" readonly onclick="setMathFocus(2)">
                 <div id="keyboard-container" style="margin: 10px 0;"></div>
                 <button onclick="effacerMath()" style="background:#400; color:#fff;">EFFACER</button>
             </div>
-
             <button id="btn-exec" onclick="verifier()">EXEC</button>
         </div>
         <div id="message"></div>
     </div>
-
     <script>
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
