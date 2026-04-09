@@ -3,25 +3,25 @@ const CONFIG = {
     maxTentatives: 3,
     enigmes: [
         {
-            titre: "> MODULE : CALCUL DE RANG",
+            titre: "> QUESTION 1 : CALCUL DE RANG",
             question: "Déterminer le rang de la matrice suivante :",
             matrice: [["1", "2", "3", "4"], ["1", "2", "3", "4"], ["1", "2", "3", "4"]],
             reponseHash: "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
         },
         {
-            titre: "> MODULE : ESPACES VECTORIELS",
+            titre: "> QUESTION 2 : ESPACES VECTORIELS",
             question: "Quelle famille suivante forme une base de R3 ?",
             options: "A: {(-1,-2),(2,4)}\nB: {(1,1,0),(0,1,1)}\nC: {(1,0),(0,1)}\nD: {(1,2,3),(1,1,0),(1,0,0)}\nE: {(1,2,3),(1,1,0),(1,0,0),(1,1,1)}",
             reponseHash: "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43"
         },
         {
-            titre: "> MODULE : DIMENSION",
+            titre: "> QUESTION 3 : DIMENSION",
             question: "Soit E = {(x,y,z) ∈ R3 | x - y - z = 0}.\nQuelle est l'assertion vraie ?",
-            options: "A: dim E = 3\nB: dim E = 2\nC: dim E = 1\nD: dim E = 0",
-            reponseHash: "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c"
+            options: "A: dim E = 4\nB: dim E = 3\nC: dim E = 2\nD: dim E = 1\nE: dim E = 0",
+            reponseHash: "6b23c0d5f35d1b11f9b683f0b0a617355deb11277d91ae091d399c655b87940d"
         },
         {
-            titre: "> MODULE : INVERSIBILITÉ",
+            titre: "> QUESTION 4 : INVERSIBILITÉ",
             question: "Pour quelles valeurs de a et b la matrice A est-elle inversible ?",
             matrice: [["a", "b", "c", "d"], ["a", "a", "b", "c"], ["a", "a", "a", "b"], ["a", "a", "a", "a"]],
             isDoubleInput: true,
